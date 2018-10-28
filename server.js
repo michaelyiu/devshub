@@ -29,8 +29,6 @@ app.use(passport.initialize());
 require('./config/passport.js')(passport);
 
 //Use routes
-// console.log('test');
-
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);

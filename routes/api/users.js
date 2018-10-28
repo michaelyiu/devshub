@@ -30,6 +30,7 @@ router.post('/register', (req, res) => {
     return res.status(400).json(errors);
   }
 
+  //find one user by email in mongoose db
   User.findOne({ email: req.body.email })
     .then(user => {
       if (user) {
@@ -49,6 +50,7 @@ router.post('/register', (req, res) => {
 
         });
 
+        //encrypt password and salt it 10x
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
@@ -66,7 +68,6 @@ router.post('/register', (req, res) => {
 // @route   GET api/users/login
 // @desc    Login User / Returning JWT token
 // @access  Public route
-
 router.post('/login', (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
@@ -85,6 +86,7 @@ router.post('/login', (req, res) => {
       }
 
       // Check Password from the form to the password in user database
+      //bcrypt compare returns a promise true/false in isMatch
       bcrypt.compare(password, user.password)
         .then(isMatch => {
           if (isMatch) {
