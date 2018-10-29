@@ -102,10 +102,12 @@ router.post('/login', (req, res) => {
               keys.secret,
               { expiresIn: 3600 },
               (err, token) => {
-                res.json({
-                  success: true,
-                  token: 'Bearer ' + token
-                })
+                res.header('x-auth', token).send(
+                  res.json({
+                    success: true,
+                    token: 'Bearer ' + token
+                  }))
+                // res.header('x-auth', token).send(token)
               });
           }
           else {
