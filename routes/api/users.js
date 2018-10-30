@@ -20,11 +20,12 @@ const User = require('./../../models/User');
 router.get('/test', (req, res) => res.json({ msg: "Users Works " }));
 
 
-// @route   GET api/users/register
+// @route   POST api/users/register
 // @desc    Register user
 // @access  Public route
 router.post('/register', (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
+  console.log("reached");
 
   if (!isValid) {
     return res.status(400).json(errors);
@@ -58,8 +59,8 @@ router.post('/register', (req, res) => {
             newUser.save()
               .then(user => res.json(user))
               .catch(err => console.log(err))
-          })
-        })
+          });
+        });
 
       }
     })
