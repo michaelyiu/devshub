@@ -35,7 +35,7 @@ router.post('/register', (req, res) => {
     .then(user => {
       if (user) {
         errors.email = 'Email already exists';
-        return res.status(400).json({ errors })
+        return res.status(400).json(errors)
       } else {
         const avatar = gravatar.url(req.body.email, {
           s: '200', //Size
@@ -77,45 +77,44 @@ router.post('/login', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  User.findOne({ email })
-    .then(user => {
-      // Check for user
-      if (!user) {
-        errors.email = 'User not found';
-        return res.status(404).json({ errors });
-      }
+  User.findOne({ email }).then(user => {
+    // Check for user
+    if (!user) {
+      errors.email = 'User not found';
+      return res.status(404).json(errors);
+    }
 
-      // Check Password from the form to the password in user database
-      //bcrypt compare returns a promise true/false in isMatch
-      bcrypt.compare(password, user.password)
-        .then(isMatch => {
-          if (isMatch) {
-            // User matched
+    // Check Password from the form to the password in user database
+    //bcrypt compare returns a promise true/false in isMatch
+    bcrypt.compare(password, user.password)
+      .then(isMatch => {
+        if (isMatch) {
+          // User matched
 
-            const payload = {
-              id: user.id, name: user.name, avatar: user.avatar
-            } //Create JWT Payload
+          const payload = {
+            id: user.id, name: user.name, avatar: user.avatar
+          } //Create JWT Payload
 
-            //Sign jwt token
-            jwt.sign(
-              payload,
-              keys.secret,
-              { expiresIn: 3600 },
-              (err, token) => {
-                res.header('x-auth', token).send(
-                  res.json({
-                    success: true,
-                    token: 'Bearer ' + token
-                  }))
-                // res.header('x-auth', token).send(token)
-              });
-          }
-          else {
-            errors.password = 'Password incorrect';
-            return res.status(400).json(errors);
-          };
-        });
-    });
+          //Sign jwt token
+          jwt.sign(
+            payload,
+            keys.secret,
+            { expiresIn: 3600 },
+            (err, token) => {
+              res.header('x-auth', token).send(
+                res.json({
+                  success: true,
+                  token: 'Bearer ' + token
+                }))
+              // res.header('x-auth', token).send(token)
+            });
+        }
+        else {
+          errors.password = 'Password incorrect';
+          return res.status(400).json(errors);
+        };
+      });
+  });
 });
 
 // @route   GET api/users/current
