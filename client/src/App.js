@@ -60,7 +60,8 @@ class App extends Component {
                 <PrivateRoute
                   exact
                   path="/create-profile"
-                  component={CreateProfile} />
+                  component={CreateProfile}
+                />
               </Switch>
             </div>
             <Footer />
