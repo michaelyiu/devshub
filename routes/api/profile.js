@@ -159,22 +159,22 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 });
 
 
-// @route   GET api/profile/experience
+// @route   POST api/profile/experience
 // @desc    Add experience to profile
 // @access  Private route
-router.post('/experience', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.post('/experience', passport.authenticate('jwt', { session: false }),
+  (req, res) => {
 
-  const { errors, isValid } = validateExperienceInput(req.body);
+    const { errors, isValid } = validateExperienceInput(req.body);
 
-  //Check Validation
-  if (!isValid) {
-    //returns any errors with 400 status
-    return res.status(400).json(errors);
-  }
+    //Check Validation
+    if (!isValid) {
+      //returns any errors with 400 status
+      return res.status(400).json(errors);
+    }
 
 
-  Profile.findOne({ user: req.user.id })
-    .then(profile => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
       const newExp = {
         title: req.body.title,
         company: req.body.company,
@@ -190,7 +190,7 @@ router.post('/experience', passport.authenticate('jwt', { session: false }), (re
 
       profile.save().then(profile => res.json(profile))
     })
-})
+  })
 
 // @route   GET api/profile/education
 // @desc    Add education to profile
