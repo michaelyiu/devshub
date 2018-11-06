@@ -42,21 +42,24 @@ img {
   /* display: flex; */
   flex-wrap: wrap;
 }
-.exp-row, .exp-head-row{
+.exp-row, .exp-head-row, .edu-row, .edu-head-row{
   width: 100%;
   display: flex;
   padding: 6px 0;
 }
-.exp-head-row{
+.exp-head-row, .edu-head-row{
   font-weight: 600;
   margin: 10px 0;
   border-top: 1px solid grey;
   border-bottom: 1px solid grey;
 }
 
-.exp-column{
-  width: 15%;
+.exp-column, .edu-column{
+  width: 20%;
 }
 .years{
   flex-grow: 3;
+}
+.deleteButton{
+  text-align: right;
 }
