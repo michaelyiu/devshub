@@ -37,3 +37,26 @@ img {
 .form-control::placeholder {
   color: #bbb !important;
 }
+
+.flex-container{
+  /* display: flex; */
+  flex-wrap: wrap;
+}
+.exp-row, .exp-head-row{
+  width: 100%;
+  display: flex;
+  padding: 6px 0;
+}
+.exp-head-row{
+  font-weight: 600;
+  margin: 10px 0;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+}
+
+.exp-column{
+  width: 15%;
+}
+.years{
+  flex-grow: 3;
+}
