@@ -24,7 +24,7 @@ class Education extends Component {
     ))
     return (
       <div>
-        <h4 className="mb-4">Experience Credentials</h4>
+        <h4 className="mb-4">Education Credentials</h4>
         <div className="flex-container edu-head-row">
           <div className="edu-column">School</div>
           <div className="edu-column">Degree</div>
