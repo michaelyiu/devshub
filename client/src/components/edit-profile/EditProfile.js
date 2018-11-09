@@ -48,7 +48,7 @@ class CreateProfile extends Component {
       const skillsCSV = profile.skills.join(',');
 
       // If profile field doesnt exist, make empty string
-      profile.company = !_.isEmpty(profile.company) ? profile.company : '';
+      // profile.company = !_.isEmpty(profile.company) ? profile.company : '';
       profile.website = !_.isEmpty(profile.website) ? profile.website : '';
       profile.location = !_.isEmpty(profile.location) ? profile.location : '';
       profile.githubUsername = !_.isEmpty(profile.githubUsername) ? profile.githubUsername : '';

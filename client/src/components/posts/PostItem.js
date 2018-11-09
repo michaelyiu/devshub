@@ -16,6 +16,16 @@ class PostItem extends Component {
   onDislikeClick = (id) => {
     this.props.removeLike(id);
   }
+  onToggleLikeClick = (id) => {
+    const { post, auth } = this.props;
+    console.log(post.likes);
+
+    if (post.likes.find(like => like.user === auth.user.id)) {
+      this.props.removeLike(id);
+    } else {
+      this.props.addLike(id);
+    }
+  }
 
   findUserLike = (likes) => {
     const { auth } = this.props;
@@ -43,14 +53,11 @@ class PostItem extends Component {
           <div className="col-md-10">
             <p className="lead">{post.text}</p>
             {showActions ? (<span>
-              <button onClick={() => this.onLikeClick(post._id)} type="button" className="btn btn-light mr-1">
+              <button onClick={() => this.onToggleLikeClick(post._id)} type="button" className="btn btn-light mr-1">
                 <i className={classnames('fas fa-thumbs-up', {
                   'text-info': this.findUserLike(post.likes)
                 })}></i>
                 <span className="badge badge-light">{post.likes.length}</span>
-              </button>
-              <button onClick={() => this.onDislikeClick(post._id)} type="button" className="btn btn-light mr-1">
-                <i className="text-secondary fas fa-thumbs-down"></i>
               </button>
               <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
                 Comments

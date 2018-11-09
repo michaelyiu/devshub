@@ -17,6 +17,10 @@ class Education extends Component {
         <div className="edu-column years">
           <Moment format="YYYY/MM/DD">{edu.from}</Moment> - {edu.to === null ? ('Now') : <Moment format="YYYY/MM/DD">{edu.to}</Moment>}
         </div>
+
+        <div className="edu-column deleteButton">
+          <button onClick={() => this.onEditClick(edu._id)} className="btn btn-primary">Edit</button>
+        </div>
         <div className="edu-column deleteButton">
           <button onClick={() => this.onDeleteClick(edu._id)} className="btn btn-danger">Delete</button>
         </div>

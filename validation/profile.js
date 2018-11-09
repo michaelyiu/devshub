@@ -19,7 +19,7 @@ module.exports = function validateProfileInput(data) {
     errors.status = 'Status field is required';
   }
   if (Validator.isEmpty(data.skills)) {
-    errors.skills = 'Status field is required';
+    errors.skills = 'Skills field is required';
   }
 
   if (!_.isEmpty(data.website)) {
