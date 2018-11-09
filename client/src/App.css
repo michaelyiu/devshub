@@ -63,3 +63,9 @@ img {
 .deleteButton{
   text-align: right;
 }
+
+.flex-center-vertically{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
