@@ -2,9 +2,30 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
-import { deleteExperience } from './../../actions/profileActions';
+import { getExperience, deleteExperience } from './../../actions/profileActions';
+import { Link } from 'react-router-dom';
 
 class Experience extends Component {
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
+  onEditClick = (id) => {
+    this.props.getExperience(id);
+    // const { profile } = this.props;
+    // const { profile } = this.props.profile;
+    // const { singleExperience } = this.props.p
+    // console.log(profile);
+    // console.log(singleExperience);
+    // console.log(this.props.profile.singleExperience);
+
+
+
+  }
+
   onDeleteClick = (id) => {
     console.log('reached');
 
@@ -20,7 +41,7 @@ class Experience extends Component {
           <Moment format="YYYY/MM/DD">{exp.from}</Moment> - {exp.to === null ? ('Now') : <Moment format="YYYY/MM/DD">{exp.to}</Moment>}
         </div>
         <div className="exp-column deleteButton">
-          <button onClick={() => this.onEditClick(exp._id)} className="btn btn-primary">Edit</button>
+          <Link to={`/edit-experience/${exp._id}`} className="btn btn-primary">Edit</Link>
         </div>
         <div className="exp-column deleteButton">
           <button onClick={() => this.onDeleteClick(exp._id)} className="btn btn-danger">Delete</button>
@@ -43,7 +64,16 @@ class Experience extends Component {
 }
 
 Experience.propTypes = {
-  deleteExperience: PropTypes.func.isRequired
+  getExperience: PropTypes.func.isRequired,
+  deleteExperience: PropTypes.func.isRequired,
+  // exp: PropTypes.object.isRequired
 }
 
-export default connect(null, { deleteExperience })(Experience);
+const mapStateToProps = state => ({
+  //   exp: this.props.experience
+  profile: state.profile,
+  singleExperience: state.profile.singleExperience
+  // exp: state.profile.experience
+})
+
+export default connect(mapStateToProps, { getExperience, deleteExperience })(Experience);

@@ -4,18 +4,16 @@ import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addExperience, getExperience, updateExperience } from '../../actions/profileActions';
+import { addEducation } from '../../actions/profileActions';
 
-const _ = require('lodash');
-const moment = require('moment');
-class AddExperience extends Component {
+class AddEducation extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      company: '',
-      title: '',
-      location: '',
+      school: '',
+      degree: '',
+      fieldOfStudy: '',
       from: '',
       to: '',
       current: false,
@@ -26,59 +24,27 @@ class AddExperience extends Component {
 
   }
 
-  componentDidMount() {
-    this.props.getExperience(this.props.match.params.exp_id);
-
-  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
-
-    const exp = nextProps.profile.experience
-    console.log(exp);
-    exp.company = !_.isEmpty(exp.company) ? exp.company : '';
-    exp.title = !_.isEmpty(exp.title) ? exp.title : '';
-    exp.location = !_.isEmpty(exp.location) ? exp.location : '';
-
-
-
-    exp.from = !_.isEmpty(exp.from) ? moment(exp.from).format("YYYY-MM-DD") : '';
-    exp.to = !_.isEmpty(exp.to) ? moment(exp.to).format("YYYY-MM-DD") : '';
-
-    exp.to = !_.isEmpty(exp.to) ? exp.to : '';
-    exp.to = !_.isEmpty(exp.to) ? exp.to : '';
-
-    exp.description = !_.isEmpty(exp.description) ? exp.description : '';
-
-    this.setState({
-      company: exp.company,
-      title: exp.title,
-      location: exp.location,
-      from: exp.from,
-      to: exp.to,
-      current: exp.current,
-      description: exp.description,
-    })
   }
 
 
   onSubmit = (e) => {
     e.preventDefault();
 
-    const expData = {
-      company: this.state.company,
-      title: this.state.title,
-      location: this.state.location,
+    const eduData = {
+      school: this.state.school,
+      degree: this.state.degree,
+      fieldOfStudy: this.state.fieldOfStudy,
       from: this.state.from,
       to: this.state.to,
       current: this.state.current,
       description: this.state.description,
 
     };
-    console.log(this.props);
-
-    this.props.updateExperience(this.props.match.params.exp_id, expData, this.props.history);
+    this.props.addEducation(eduData, this.props.history);
   }
 
   onChange = (e) => {
@@ -96,36 +62,36 @@ class AddExperience extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="add-experience">
+      <div className="add-education">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
               <Link to="/dashboard" className="btn btn-light">
                 Go Back
               </Link>
-              <h1 className="display-4 text-center">Edit Experience</h1>
+              <h1 className="display-4 text-center">Edit Education</h1>
               <small className="d-block pb3">* = required fields</small>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="* Company"
-                  name="company"
-                  value={this.state.company}
+                  placeholder="* School"
+                  name="school"
+                  value={this.state.school}
                   onChange={this.onChange}
-                  error={errors.company}
+                  error={errors.school}
                 />
                 <TextFieldGroup
-                  placeholder="* Job Title"
-                  name="title"
-                  value={this.state.title}
+                  placeholder="* Degree of Certification"
+                  name="degree"
+                  value={this.state.degree}
                   onChange={this.onChange}
-                  error={errors.title}
+                  error={errors.degree}
                 />
                 <TextFieldGroup
-                  placeholder="Location"
-                  name="location"
-                  value={this.state.location}
+                  placeholder="Field of Study"
+                  name="fieldOfStudy"
+                  value={this.state.fieldOfStudy}
                   onChange={this.onChange}
-                  error={errors.location}
+                  error={errors.fieldOfStudy}
                 />
                 <h6>From Date</h6>
                 <TextFieldGroup
@@ -159,12 +125,12 @@ class AddExperience extends Component {
                   </label>
                 </div>
                 <TextAreaFieldGroup
-                  placeholder="Job Description"
+                  placeholder="Program Description"
                   name="description"
                   value={this.state.description}
                   onChange={this.onChange}
                   error={errors.description}
-                  info="Tell us about the position"
+                  info="Tell us about the program you were in"
                 />
                 <input type="submit" value="Submit" className="btn btn-info btn-block mt-4" />
               </form>
@@ -176,20 +142,17 @@ class AddExperience extends Component {
   }
 }
 
-AddExperience.propTypes = {
-  addExperience: PropTypes.func.isRequired,
-  getExperience: PropTypes.func.isRequired,
-  updateExperience: PropTypes.func.isRequired,
+AddEducation.propTypes = {
+  addEducation: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  errors: state.errors,
+  errors: state.errors
 })
 
-
-export default connect(mapStateToProps, { addExperience, getExperience, updateExperience })(
-  withRouter(AddExperience)
+export default connect(mapStateToProps, { addEducation })(
+  withRouter(AddEducation)
 );

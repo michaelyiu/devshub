@@ -39,7 +39,6 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
 // @route   GET api/profile/all
 // @desc    Get all profiles
 // @access  Public route
-
 router.get('/all', (req, res) => {
   const errors = {};
 
@@ -61,7 +60,6 @@ router.get('/all', (req, res) => {
 // @route   GET api/profile/handle/:handle
 // @desc    Get profile by handle
 // @access  Public route
-
 router.get('/handle/:handle', (req, res) => {
   const errors = {};
 
@@ -160,7 +158,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 
 
 // @route   POST api/profile/experience
-// @desc    Add experience to profile (maybe edit too)
+// @desc    Add experience to profile
 // @access  Private route
 router.post('/experience', passport.authenticate('jwt', { session: false }),
   (req, res) => {
@@ -174,7 +172,9 @@ router.post('/experience', passport.authenticate('jwt', { session: false }),
     }
 
 
+
     Profile.findOne({ user: req.user.id }).then(profile => {
+
       const newExp = {
         title: req.body.title,
         company: req.body.company,
@@ -190,9 +190,87 @@ router.post('/experience', passport.authenticate('jwt', { session: false }),
 
       profile.save().then(profile => res.json(profile))
     })
+
   })
 
-// @route   GET api/profile/education
+
+
+// @route   POST api/profile/experience/:exp_id
+// @desc    Edit experience to profile
+// @access  Private route
+router.post('/experience/:exp_id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  // console.log(res);
+  console.log("REQ START" + req.body + " REQ END");
+
+  // console.log(req.body);
+  // console.log(req.body.title);
+
+  // for (let property in req.body) {
+  // if (req.body.hasOwnProperty(property)) {
+  // console.log(property);
+  // }
+  // }
+
+  const { errors, isValid } = validateExperienceInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    // returns any errors with 400 status
+    return res.status(400).json(errors);
+  }
+
+  const expFields = {};
+  if (req.body.title || req.body.title === "") expFields.title = req.body.title;
+  if (req.body.company || req.body.company === "") expFields.company = req.body.company;
+  if (req.body.location || req.body.title === "") expFields.location = req.body.location;
+  if (req.body.from || req.body.from === "") expFields.from = req.body.from;
+  if (req.body.to || req.body.to === "") expFields.to = req.body.to;
+  expFields.current = req.body.current;
+  if (req.body.description || req.body.description === "") expFields.description = req.body.description;
+
+
+  Profile.findOne({ user: req.user.id })
+    .then(profile => {
+      //Get index
+      const index = profile.experience
+        .map(item => item.id)
+        .indexOf(req.params.exp_id);
+      console.log(profile.experience[index]);
+
+      Profile.findOneAndUpdate(
+        { user: req.user.id }, { $set: { [`experience.${index}`]: expFields } }, { new: true }
+
+
+      ).then(profile => res.json(profile))
+        .catch(err => res.status(400).json(err));
+
+    })
+  // .catch(err => res.status(404).json(err));
+
+})
+
+// @route   GET api/profile/experience/:exp_id
+// @desc    get experience with given id
+// @access  Private route
+router.get('/experience/:exp_id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Profile.findOne({ user: req.user.id })
+    .then(profile => {
+      //Get index
+      const index = profile.experience
+        .map(item => item.id)
+        .indexOf(req.params.exp_id);
+
+      res.json(profile.experience[index]);
+
+    })
+    .catch(err => res.status(404).json(err));
+
+  // res.json(profile);
+})
+
+
+
+// @route   POST api/profile/education
 // @desc    Add education to profile
 // @access  Private route
 router.post('/education', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -224,6 +302,7 @@ router.post('/education', passport.authenticate('jwt', { session: false }), (req
       profile.save().then(profile => res.json(profile))
     });
 });
+
 
 
 // @route   DELETE api/profile/experience/:exp_id

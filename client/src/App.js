@@ -18,7 +18,9 @@ import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './components/create-profile/CreateProfile';
 import EditProfile from './components/edit-profile/EditProfile';
 import AddExperience from './components/add-credentials/AddExperience';
+import EditExperience from './components/add-credentials/EditExperience';
 import AddEducation from './components/add-credentials/AddEducation';
+import EditEducation from './components/add-credentials/EditEducation';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 import Posts from './components/posts/Posts';
@@ -91,8 +93,22 @@ class App extends Component {
               <Switch>
                 <PrivateRoute
                   exact
+                  path="/edit-experience/:exp_id"
+                  component={EditExperience}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
                   path="/add-education"
                   component={AddEducation}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/edit-education"
+                  component={EditEducation}
                 />
               </Switch>
               <Switch>

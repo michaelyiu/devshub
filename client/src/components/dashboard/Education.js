@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { deleteEducation } from './../../actions/profileActions';
+import { Link } from 'react-router-dom';
 
 class Education extends Component {
   onDeleteClick = (id) => {
@@ -19,7 +20,9 @@ class Education extends Component {
         </div>
 
         <div className="edu-column deleteButton">
-          <button onClick={() => this.onEditClick(edu._id)} className="btn btn-primary">Edit</button>
+          <Link to="/edit-education" className="btn btn-primary">Edit</Link>
+
+          {/* <button onClick={() => this.onEditClick(edu._id)} className="btn btn-primary">Edit</button> */}
         </div>
         <div className="edu-column deleteButton">
           <button onClick={() => this.onDeleteClick(edu._id)} className="btn btn-danger">Delete</button>
