@@ -5,7 +5,7 @@ import rootReducer from './reducers'
 const initialState = {};
 
 const middleware = [thunk];
-
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 //creates redux
 const store = createStore(
   // rootReducer,
@@ -17,13 +17,20 @@ const store = createStore(
 
 
 
+  // rootReducer,
+  // initialState,
+  // compose(
+  //   applyMiddleware(...middleware),
+  //   window.navigator.userAgent.includes('Chrome') ?
+  //     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : compose,
+  // ),
+
   rootReducer,
   initialState,
-  compose(
-    applyMiddleware(...middleware),
-    window.navigator.userAgent.includes('Chrome') ?
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : compose,
-  ),
+  composeEnhancers(
+    applyMiddleware(...middleware)
+  )
+
 );
 
 export default store;
