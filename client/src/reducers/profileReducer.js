@@ -1,9 +1,10 @@
-import { GET_PROFILE, GET_PROFILES, PROFILE_LOADING, GET_EXPERIENCE, CLEAR_CURRENT_PROFILE } from '../actions/types'
+import { GET_PROFILE, GET_PROFILES, PROFILE_LOADING, GET_EXPERIENCE, GET_EDUCATION, CLEAR_CURRENT_PROFILE } from '../actions/types'
 
 const initialState = {
   profile: null,
   profiles: null,
   experience: null,
+  education: null,
   loading: false
 }
 
@@ -31,6 +32,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         experience: action.payload,
+        loading: false
+      }
+    case GET_EDUCATION:
+      return {
+        ...state,
+        education: action.payload,
         loading: false
       }
     case CLEAR_CURRENT_PROFILE:

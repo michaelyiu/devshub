@@ -2,10 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
-import { deleteEducation } from './../../actions/profileActions';
+import { getEducation, deleteEducation } from './../../actions/profileActions';
 import { Link } from 'react-router-dom';
 
 class Education extends Component {
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
+  onEditClick = (id) => {
+    this.props.getEducation(id);
+  }
+
   onDeleteClick = (id) => {
     this.props.deleteEducation(id)
   }
@@ -18,14 +29,9 @@ class Education extends Component {
         <div className="edu-column years">
           <Moment format="YYYY/MM/DD">{edu.from}</Moment> - {edu.to === null ? ('Now') : <Moment format="YYYY/MM/DD">{edu.to}</Moment>}
         </div>
-
         <div className="edu-column deleteButton">
-          <Link to="/edit-education" className="btn btn-primary">Edit</Link>
-
-          {/* <button onClick={() => this.onEditClick(edu._id)} className="btn btn-primary">Edit</button> */}
-        </div>
-        <div className="edu-column deleteButton">
-          <button onClick={() => this.onDeleteClick(edu._id)} className="btn btn-danger">Delete</button>
+          <Link to={`/edit-education/${edu._id}`} className="btn btn-primary btn-custom">Edit</Link>
+          <button onClick={() => this.onDeleteClick(edu._id)} className="btn btn-danger btn-custom ml-4">Delete</button>
         </div>
       </div>
     ))
@@ -45,7 +51,12 @@ class Education extends Component {
 }
 
 Education.propTypes = {
+  getEducation: PropTypes.func.isRequired,
   deleteEducation: PropTypes.func.isRequired
 }
 
-export default connect(null, { deleteEducation })(Education);
+const mapStateToProps = state => ({
+  singleEducation: state.profile.singleEducation
+})
+
+export default connect(mapStateToProps, { getEducation, deleteEducation })(Education);

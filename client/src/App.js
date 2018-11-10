@@ -107,7 +107,7 @@ class App extends Component {
               <Switch>
                 <PrivateRoute
                   exact
-                  path="/edit-education"
+                  path="/edit-education/:edu_id"
                   component={EditEducation}
                 />
               </Switch>

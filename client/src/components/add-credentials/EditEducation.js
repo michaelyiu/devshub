@@ -1,10 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addEducation } from '../../actions/profileActions';
+import { addEducation, getEducation, updateEducation } from '../../actions/profileActions';
+
+const _ = require('lodash');
+const moment = require('moment');
 
 class AddEducation extends Component {
   constructor(props) {
@@ -24,10 +27,39 @@ class AddEducation extends Component {
 
   }
 
+  componentDidMount() {
+    this.props.getEducation(this.props.match.params.edu_id);
+    // console.log(test);
+
+  }
   componentWillReceiveProps(nextProps) {
+    console.log("REACHED");
+
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
+
+    const edu = nextProps.profile.education;
+    console.log(edu);
+
+
+    edu.school = !_.isEmpty(edu.school) ? edu.school : '';
+    edu.degree = !_.isEmpty(edu.degree) ? edu.degree : '';
+    edu.fieldOfStudy = !_.isEmpty(edu.fieldOfStudy) ? edu.fieldOfStudy : '';
+    edu.from = !_.isEmpty(edu.from) ? moment(edu.from).format("YYYY-MM-DD") : '';
+    edu.to = !_.isEmpty(edu.to) ? moment(edu.to).format("YYYY-MM-DD") : '';
+
+    edu.description = !_.isEmpty(edu.description) ? edu.description : '';
+
+    this.setState({
+      school: edu.school,
+      degree: edu.degree,
+      fieldOfStudy: edu.fieldOfStudy,
+      from: edu.from,
+      to: edu.to,
+      current: edu.current,
+      description: edu.description,
+    })
   }
 
 
@@ -44,7 +76,7 @@ class AddEducation extends Component {
       description: this.state.description,
 
     };
-    this.props.addEducation(eduData, this.props.history);
+    this.props.updateEducation(this.props.match.params.edu_id, eduData, this.props.history);
   }
 
   onChange = (e) => {
@@ -80,7 +112,7 @@ class AddEducation extends Component {
                   error={errors.school}
                 />
                 <TextFieldGroup
-                  placeholder="* Degree of Certification"
+                  placeholder="* Degree"
                   name="degree"
                   value={this.state.degree}
                   onChange={this.onChange}
@@ -125,12 +157,12 @@ class AddEducation extends Component {
                   </label>
                 </div>
                 <TextAreaFieldGroup
-                  placeholder="Program Description"
+                  placeholder="Job Description"
                   name="description"
                   value={this.state.description}
                   onChange={this.onChange}
                   error={errors.description}
-                  info="Tell us about the program you were in"
+                  info="Tell us about the position"
                 />
                 <input type="submit" value="Submit" className="btn btn-info btn-block mt-4" />
               </form>
@@ -144,15 +176,18 @@ class AddEducation extends Component {
 
 AddEducation.propTypes = {
   addEducation: PropTypes.func.isRequired,
+  getEducation: PropTypes.func.isRequired,
+  updateEducation: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  errors: state.errors
+  errors: state.errors,
 })
 
-export default connect(mapStateToProps, { addEducation })(
+
+export default connect(mapStateToProps, { addEducation, getEducation, updateEducation })(
   withRouter(AddEducation)
 );

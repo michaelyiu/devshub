@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
@@ -8,6 +8,7 @@ import { addExperience, getExperience, updateExperience } from '../../actions/pr
 
 const _ = require('lodash');
 const moment = require('moment');
+
 class AddExperience extends Component {
   constructor(props) {
     super(props);
@@ -35,19 +36,13 @@ class AddExperience extends Component {
       this.setState({ errors: nextProps.errors });
     }
 
-    const exp = nextProps.profile.experience
-    console.log(exp);
+    const exp = nextProps.profile.experience;
+
     exp.company = !_.isEmpty(exp.company) ? exp.company : '';
     exp.title = !_.isEmpty(exp.title) ? exp.title : '';
     exp.location = !_.isEmpty(exp.location) ? exp.location : '';
-
-
-
     exp.from = !_.isEmpty(exp.from) ? moment(exp.from).format("YYYY-MM-DD") : '';
     exp.to = !_.isEmpty(exp.to) ? moment(exp.to).format("YYYY-MM-DD") : '';
-
-    exp.to = !_.isEmpty(exp.to) ? exp.to : '';
-    exp.to = !_.isEmpty(exp.to) ? exp.to : '';
 
     exp.description = !_.isEmpty(exp.description) ? exp.description : '';
 
@@ -76,8 +71,6 @@ class AddExperience extends Component {
       description: this.state.description,
 
     };
-    console.log(this.props);
-
     this.props.updateExperience(this.props.match.params.exp_id, expData, this.props.history);
   }
 

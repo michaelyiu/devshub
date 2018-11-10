@@ -199,17 +199,6 @@ router.post('/experience', passport.authenticate('jwt', { session: false }),
 // @desc    Edit experience to profile
 // @access  Private route
 router.post('/experience/:exp_id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  // console.log(res);
-  console.log("REQ START" + req.body + " REQ END");
-
-  // console.log(req.body);
-  // console.log(req.body.title);
-
-  // for (let property in req.body) {
-  // if (req.body.hasOwnProperty(property)) {
-  // console.log(property);
-  // }
-  // }
 
   const { errors, isValid } = validateExperienceInput(req.body);
 
@@ -228,14 +217,12 @@ router.post('/experience/:exp_id', passport.authenticate('jwt', { session: false
   expFields.current = req.body.current;
   if (req.body.description || req.body.description === "") expFields.description = req.body.description;
 
-
   Profile.findOne({ user: req.user.id })
     .then(profile => {
       //Get index
       const index = profile.experience
         .map(item => item.id)
         .indexOf(req.params.exp_id);
-      console.log(profile.experience[index]);
 
       Profile.findOneAndUpdate(
         { user: req.user.id }, { $set: { [`experience.${index}`]: expFields } }, { new: true }
@@ -243,10 +230,46 @@ router.post('/experience/:exp_id', passport.authenticate('jwt', { session: false
 
       ).then(profile => res.json(profile))
         .catch(err => res.status(400).json(err));
-
     })
-  // .catch(err => res.status(404).json(err));
+})
 
+
+// @route   POST api/profile/education/:edu_id
+// @desc    Edit education to profile
+// @access  Private route
+router.post('/education/:edu_id', passport.authenticate('jwt', { session: false }), (req, res) => {
+
+  const { errors, isValid } = validateEducationInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    // returns any errors with 400 status
+    return res.status(400).json(errors);
+  }
+
+  const eduFields = {};
+  if (req.body.school || req.body.school === "") eduFields.school = req.body.school;
+  if (req.body.degree || req.body.degree === "") eduFields.degree = req.body.degree;
+  if (req.body.fieldOfStudy || req.body.title === "") eduFields.fieldOfStudy = req.body.fieldOfStudy;
+  if (req.body.from || req.body.from === "") eduFields.from = req.body.from;
+  if (req.body.to || req.body.to === "") eduFields.to = req.body.to;
+  eduFields.current = req.body.current;
+  if (req.body.description || req.body.description === "") eduFields.description = req.body.description;
+
+  Profile.findOne({ user: req.user.id })
+    .then(profile => {
+      //Get index
+      const index = profile.education
+        .map(item => item.id)
+        .indexOf(req.params.edu_id);
+
+      Profile.findOneAndUpdate(
+        { user: req.user.id }, { $set: { [`education.${index}`]: eduFields } }, { new: true }
+
+
+      ).then(profile => res.json(profile))
+        .catch(err => res.status(400).json(err));
+    })
 })
 
 // @route   GET api/profile/experience/:exp_id
@@ -261,11 +284,25 @@ router.get('/experience/:exp_id', passport.authenticate('jwt', { session: false 
         .indexOf(req.params.exp_id);
 
       res.json(profile.experience[index]);
-
     })
     .catch(err => res.status(404).json(err));
+})
 
-  // res.json(profile);
+
+// @route   GET api/profile/education/:edu_id
+// @desc    get education with given id
+// @access  Private route
+router.get('/education/:edu_id', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Profile.findOne({ user: req.user.id })
+    .then(profile => {
+      //Get index
+      const index = profile.education
+        .map(item => item.id)
+        .indexOf(req.params.edu_id);
+
+      res.json(profile.education[index]);
+    })
+    .catch(err => res.status(404).json(err));
 })
 
 

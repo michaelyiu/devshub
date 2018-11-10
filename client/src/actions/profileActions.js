@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_PROFILE, GET_PROFILES, GET_EXPERIENCE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER } from './types';
+import { GET_PROFILE, GET_PROFILES, GET_EXPERIENCE, GET_EDUCATION, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER } from './types';
 
 // Get current profile
 export const getCurrentProfile = () => dispatch => {
@@ -67,7 +67,6 @@ export const addExperience = (expData, history) => dispatch => {
 }
 
 export const getExperience = (expId) => dispatch => {
-
   axios
     .get(`/api/profile/experience/${expId}`)
     .then(res =>
@@ -84,6 +83,26 @@ export const getExperience = (expId) => dispatch => {
     )
 }
 
+export const getEducation = (eduId) => dispatch => {
+  console.log(eduId);
+
+  axios
+    .get(`/api/profile/education/${eduId}`)
+    .then(res =>
+      dispatch({
+        type: GET_EDUCATION,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: null
+      })
+    )
+}
+
+//updateExperience
 export const updateExperience = (expId, expData, history) => dispatch => {
   axios
     .post(`/api/profile/experience/${expId}`, expData)
@@ -96,6 +115,18 @@ export const updateExperience = (expId, expData, history) => dispatch => {
     )
 }
 
+//updateEducation
+export const updateEducation = (eduId, eduData, history) => dispatch => {
+  axios
+    .post(`/api/profile/education/${eduId}`, eduData)
+    .then(res => history.push('/dashboard'))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    )
+}
 
 //add education
 export const addEducation = (eduData, history) => dispatch => {

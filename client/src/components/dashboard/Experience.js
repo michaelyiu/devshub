@@ -15,20 +15,9 @@ class Experience extends Component {
 
   onEditClick = (id) => {
     this.props.getExperience(id);
-    // const { profile } = this.props;
-    // const { profile } = this.props.profile;
-    // const { singleExperience } = this.props.p
-    // console.log(profile);
-    // console.log(singleExperience);
-    // console.log(this.props.profile.singleExperience);
-
-
-
   }
 
   onDeleteClick = (id) => {
-    console.log('reached');
-
     this.props.deleteExperience(id)
   }
 
@@ -41,10 +30,8 @@ class Experience extends Component {
           <Moment format="YYYY/MM/DD">{exp.from}</Moment> - {exp.to === null ? ('Now') : <Moment format="YYYY/MM/DD">{exp.to}</Moment>}
         </div>
         <div className="exp-column deleteButton">
-          <Link to={`/edit-experience/${exp._id}`} className="btn btn-primary">Edit</Link>
-        </div>
-        <div className="exp-column deleteButton">
-          <button onClick={() => this.onDeleteClick(exp._id)} className="btn btn-danger">Delete</button>
+          <Link to={`/edit-experience/${exp._id}`} className="btn btn-primary btn-custom">Edit</Link>
+          <button onClick={() => this.onDeleteClick(exp._id)} className="btn btn-danger btn-custom ml-4">Delete</button>
         </div>
       </div>
     ))
@@ -66,14 +53,10 @@ class Experience extends Component {
 Experience.propTypes = {
   getExperience: PropTypes.func.isRequired,
   deleteExperience: PropTypes.func.isRequired,
-  // exp: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  //   exp: this.props.experience
-  profile: state.profile,
   singleExperience: state.profile.singleExperience
-  // exp: state.profile.experience
 })
 
 export default connect(mapStateToProps, { getExperience, deleteExperience })(Experience);

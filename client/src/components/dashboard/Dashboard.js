@@ -36,7 +36,7 @@ class Dashboard extends Component {
             <ProfileActions />
             <Experience experience={profile.experience} />
             <Education education={profile.education} />
-            <div style={{ marginBottom: '60px' }}>
+            <div className="mt-5 mb-5">
               <button onClick={this.onDeleteClick.bind(this)} className="btn btn-danger">Delete My Account</button>
             </div>
           </div>
@@ -59,7 +59,7 @@ class Dashboard extends Component {
       <div className="dashboard">
         <div className="container">
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-sm-12">
               <h1 className="display-4">Dashboard</h1>
               {dashboardContent}
             </div>
