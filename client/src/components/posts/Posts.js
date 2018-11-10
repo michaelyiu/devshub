@@ -5,10 +5,12 @@ import PostForm from './PostForm';
 import PostFeed from './PostFeed';
 import Spinner from './../common/Spinner';
 import { getPosts } from './../../actions/postActions';
+import { getCurrentProfile } from './../../actions/profileActions';
 
 class Posts extends Component {
   componentDidMount() {
     this.props.getPosts();
+    this.props.getCurrentProfile();
   }
   render() {
     const { posts, loading } = this.props.post;
@@ -36,6 +38,7 @@ class Posts extends Component {
 }
 
 Posts.propTypes = {
+  getCurrentProfile: PropTypes.func.isRequired,
   getPosts: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired
 }
@@ -44,4 +47,4 @@ const mapStateToProps = state => ({
   post: state.post
 });
 
-export default connect(mapStateToProps, { getPosts })(Posts);
+export default connect(mapStateToProps, { getPosts, getCurrentProfile })(Posts);

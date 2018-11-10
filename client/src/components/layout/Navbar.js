@@ -12,6 +12,7 @@ class Navbar extends Component {
     this.props.logoutUser();
   }
 
+
   render() {
     const { isAuthenticated, user } = this.props.auth;
 
@@ -84,6 +85,7 @@ Navbar.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 })
 export default connect(mapStateToProps, { logoutUser, clearCurrentProfile })(Navbar);

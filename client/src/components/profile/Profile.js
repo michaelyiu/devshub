@@ -17,10 +17,6 @@ class Profile extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    console.log(this.props.profile.loading);
-
-
     if (nextProps.profile.profile === null && this.props.profile.loading) {
       this.props.history.push('/not-found');
     }
@@ -31,7 +27,7 @@ class Profile extends Component {
     let profileContent;
 
     if (profile === null || loading) {
-      profileContent = <Spinner />
+      profileContent = <Spinner />;
     }
     else {
       profileContent = (
