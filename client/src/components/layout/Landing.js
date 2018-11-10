@@ -2,24 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { getCurrentProfile } from './../../actions/profileActions';
 
-
-const _ = require('lodash');
 
 class Landing extends Component {
 
   componentDidMount() {
-    this.props.getCurrentProfile();
-
-    const { auth, profile } = this.props;
-    console.log(this.props.profile);
-
-    if (auth.isAuthenticated && _.isEmpty(profile.profile)) {
+    if (this.props.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
-    }
-    else if (auth.isAuthenticated) {
-      this.props.history.push('/feed');
     }
   }
 
@@ -46,13 +35,11 @@ class Landing extends Component {
 }
 
 Landing.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
-  profile: state.profile
+  auth: state.auth
 })
 
-export default connect(mapStateToProps, { getCurrentProfile })(Landing);
+export default connect(mapStateToProps)(Landing);
