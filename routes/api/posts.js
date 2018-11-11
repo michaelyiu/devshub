@@ -17,7 +17,7 @@ const validatePostInput = require('./../../validation/post');
 // @access  Public route
 router.get('/test', (req, res) => res.json({ msg: "Posts Works " }));
 
-// @route   GET api/posts
+// @route   GET api/post
 // @desc    GET post
 // @access  Public route
 router.get('/', (req, res) => {
@@ -27,15 +27,15 @@ router.get('/', (req, res) => {
     .catch(err => res.status(404).json({ noPostFound: 'No post found with that ID' }));
 });
 
+
 // @route   GET api/posts/:id
-// @desc    GET post by id
+// @desc    GET posts by id
 // @access  Public route
 router.get('/:id', (req, res) => {
   Post.findById(req.params.id)
     .then(post => res.json(post))
     .catch(err => res.status(404).json({ noPostFound: 'No post found with that ID' }));
 })
-
 
 
 // @route   POST api/posts
@@ -48,14 +48,24 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
     //If any errors, send 400 with errors object
     return res.status(400).json(errors);
   }
-  const newPost = new Post({
-    text: req.body.text,
-    name: req.body.name,
-    avatar: req.body.avatar,
-    user: req.user.id
-  })
 
-  newPost.save().then(post => res.json(post));
+  Profile.findOne({ user: req.user.id })
+    .then(profile => {
+      const newPost = new Post({
+        text: req.body.text,
+        name: req.body.name,
+        avatar: req.body.avatar,
+        user: req.user.id,
+        handle: profile.handle
+      })
+
+      newPost.save().then(post => res.json(post));
+    })
+    //Return nothing since we still want the action to go thru even without a profile
+    .catch(err => null)
+
+
+
 })
 
 
@@ -145,19 +155,23 @@ router.post('/comments/:id', passport.authenticate('jwt', { session: false }), (
         //If any errors, send 400 with errors object
         return res.status(400).json(errors);
       }
+      Profile.findOne({ user: req.user.id })
+        .then(profile => {
+          const newComment = {
+            text: req.body.text,
+            name: req.body.name,
+            avatar: req.body.avatar,
+            user: req.user.id,
+            handle: profile.handle
+          }
+          // Add to comments array
+          post.comments.unshift(newComment);
 
-      const newComment = {
-        text: req.body.text,
-        name: req.body.name,
-        avatar: req.body.avatar,
-        user: req.user.id
-      }
+          // Save
+          post.save().then(post => res.json(post))
+        })
 
-      // Add to comments array
-      post.comments.unshift(newComment);
 
-      // Save
-      post.save().then(post => res.json(post))
     })
     .catch(err => res.status(404).json({ postNotFound: 'No post found' }));
 })

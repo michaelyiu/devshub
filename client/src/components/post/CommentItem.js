@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { deleteComment } from './../../actions/postActions';
 class CommentItem extends Component {
   onDeleteClick = (postId, commentId) => {
@@ -14,9 +15,9 @@ class CommentItem extends Component {
       <div className="card card-body mb-3">
         <div className="row">
           <div className="col-md-2">
-            <a href="profile.html">
+            <Link to={`/profile/${comment.handle}`}>
               <img className="rounded-circle d-none d-md-block" src={comment.avatar} alt="" />
-            </a>
+            </Link>
             <br />
             <p className="text-center">{comment.name}</p>
           </div>

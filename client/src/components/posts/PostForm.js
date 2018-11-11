@@ -30,7 +30,7 @@ class PostForm extends Component {
     const newPost = {
       text: this.state.text,
       name: user.name,
-      avatar: user.avatar
+      avatar: user.avatar,
     };
 
     this.props.addPost(newPost);
@@ -44,7 +44,7 @@ class PostForm extends Component {
       <div className="post-form mb-3">
         <div className="card card-info">
           <div className="card-header bg-info text-white">
-            Say Something, I'm giving up on you....
+            Say Something! Hey! Listen!
               </div>
           <div className="card-body">
             <form onSubmit={this.onSubmit}>

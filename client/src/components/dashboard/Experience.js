@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
-// import 'moment-timezone';
 import { getExperience, deleteExperience } from './../../actions/profileActions';
 import { Link } from 'react-router-dom';
 
 const moment = require('moment');
-const tz = require('moment-timezone');
+
 class Experience extends Component {
 
   componentWillReceiveProps(nextProps) {
@@ -25,11 +24,6 @@ class Experience extends Component {
   }
 
   render() {
-    console.log(this.props.experience);
-    // let from = moment(this.props.from).format('YYYY MM DD')
-    // let from = moment(this.props.from).format('YYYY MM DD')
-    // console.log(from);
-
 
     const experience = this.props.experience.map(exp => (
       <div key={exp._id} className="flex-container exp-row">

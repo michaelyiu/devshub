@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addEducation } from '../../actions/profileActions';
 
-const moment = require('moment');
-
 class AddEducation extends Component {
   constructor(props) {
     super(props);

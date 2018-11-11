@@ -18,7 +18,6 @@ class PostItem extends Component {
   }
   onToggleLikeClick = (id) => {
     const { post, auth } = this.props;
-    console.log(post.likes);
 
     if (post.likes.find(like => like.user === auth.user.id)) {
       this.props.removeLike(id);
@@ -39,14 +38,15 @@ class PostItem extends Component {
 
   render() {
     const { post, auth, showActions } = this.props;
+
     return (
       <div className="card card-body mb-3">
         <div className="row">
           <div className="col-md-2">
-            <a href="profile.html">
+            <Link to={`/profile/${post.handle}`}>
               <img className="rounded-circle d-none d-md-block" src={post.avatar}
                 alt="" />
-            </a>
+            </Link>
             <br />
             <p className="text-center">{post.name}</p>
           </div>
@@ -70,7 +70,7 @@ class PostItem extends Component {
             </span>) : null}
           </div>
         </div>
-      </div>
+      </div >
     )
   }
 }

@@ -6,8 +6,6 @@ export const getCurrentProfile = () => dispatch => {
   dispatch(setProfileLoading());
   axios.get('/api/profile')
     .then(res => {
-      console.log(res);
-
       dispatch({
         type: GET_PROFILE,
         payload: res.data
@@ -24,8 +22,6 @@ export const getCurrentProfile = () => dispatch => {
 
 // Create Profile
 export const createProfile = (profileData, history) => dispatch => {
-  console.log(profileData);
-
   axios
     .post('/api/profile', profileData)
     .then(res => history.push('/dashboard'))
