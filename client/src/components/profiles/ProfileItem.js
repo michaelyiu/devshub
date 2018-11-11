@@ -7,6 +7,8 @@ const _ = require('lodash');
 class ProfileItem extends Component {
   render() {
     const { profile } = this.props;
+    console.log(profile);
+
 
     return (
       <div className="card card-body bg-light mb-3">
@@ -16,6 +18,8 @@ class ProfileItem extends Component {
           </div>
           <div className="col-lg-6 col-md-4 col-8">
             <h3>{profile.user.name}</h3>
+            <h6>{profile.handle}</h6>
+
             <p>
               {profile.status} {_.isEmpty(profile.company) ? null : (<span> at {profile.company}</span>)}
             </p>

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addExperience } from '../../actions/profileActions';
 
+const moment = require('moment');
+
 class AddExperience extends Component {
   constructor(props) {
     super(props);
@@ -34,21 +36,25 @@ class AddExperience extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
+    let overrideDate;
+    if (this.state.current) {
+      overrideDate = '';
+      // overrideDate = moment().format('YYYY MM DD')
+    }
+    // console.log("test date", overrideDate);
+
+
     const expData = {
       company: this.state.company,
       title: this.state.title,
       location: this.state.location,
       from: this.state.from,
-      to: this.state.to,
+      to: this.state.current ? overrideDate : this.state.to,
       current: this.state.current,
       description: this.state.description,
 
     };
-    console.log(expData);
 
-    // if (expData.current) {
-    //   expData.to = "2018-11-16"
-    // }
     this.props.addExperience(expData, this.props.history);
   }
 

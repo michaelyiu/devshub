@@ -40,14 +40,12 @@ class AddEducation extends Component {
     }
 
     const edu = nextProps.profile.education;
-    console.log(edu);
-
 
     edu.school = !_.isEmpty(edu.school) ? edu.school : '';
     edu.degree = !_.isEmpty(edu.degree) ? edu.degree : '';
     edu.fieldOfStudy = !_.isEmpty(edu.fieldOfStudy) ? edu.fieldOfStudy : '';
-    edu.from = !_.isEmpty(edu.from) ? moment(edu.from).format("YYYY-MM-DD") : '';
-    edu.to = !_.isEmpty(edu.to) ? moment(edu.to).format("YYYY-MM-DD") : '';
+    edu.from = !_.isEmpty(edu.from) ? moment.utc(edu.from).format("YYYY-MM-DD") : '';
+    edu.to = !_.isEmpty(edu.to) ? moment.utc(edu.to).format("YYYY-MM-DD") : '';
 
     edu.description = !_.isEmpty(edu.description) ? edu.description : '';
 
@@ -66,12 +64,18 @@ class AddEducation extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
+    let overrideDate;
+    if (this.state.current) {
+      overrideDate = '';
+      // overrideDate = moment().format('YYYY MM DD')
+    }
+
     const eduData = {
       school: this.state.school,
       degree: this.state.degree,
       fieldOfStudy: this.state.fieldOfStudy,
       from: this.state.from,
-      to: this.state.to,
+      to: this.state.current ? overrideDate : this.state.to,
       current: this.state.current,
       description: this.state.description,
 

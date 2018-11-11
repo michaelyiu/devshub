@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
+import { getCurrentProfile } from '../../actions/profileActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 
 class Login extends Component {
@@ -13,17 +14,12 @@ class Login extends Component {
       errors: {}
     };
   }
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/feed');
-    }
-  }
-
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push('/feed');
+      this.props.history.push('/dashboard');
     }
+
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors })
     }
@@ -39,6 +35,7 @@ class Login extends Component {
 
     // Call authAction loginUser
     this.props.loginUser(userData);
+
   }
 
   onChange = (e) => {
@@ -89,13 +86,15 @@ class Login extends Component {
 
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  profile: state.profile,
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { loginUser })(Login);
+export default connect(mapStateToProps, { loginUser, getCurrentProfile })(Login);

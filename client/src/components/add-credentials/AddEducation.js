@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addEducation } from '../../actions/profileActions';
 
+const moment = require('moment');
+
 class AddEducation extends Component {
   constructor(props) {
     super(props);
@@ -34,12 +36,18 @@ class AddEducation extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
+    let overrideDate;
+    if (this.state.current) {
+      // overrideDate = moment().format('YYYY MM DD')
+      overrideDate = '';
+    }
+
     const eduData = {
       school: this.state.school,
       degree: this.state.degree,
       fieldOfStudy: this.state.fieldOfStudy,
       from: this.state.from,
-      to: this.state.to,
+      to: this.state.current ? overrideDate : this.state.to,
       current: this.state.current,
       description: this.state.description,
 

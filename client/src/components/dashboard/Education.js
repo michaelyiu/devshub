@@ -5,6 +5,7 @@ import Moment from 'react-moment';
 import { getEducation, deleteEducation } from './../../actions/profileActions';
 import { Link } from 'react-router-dom';
 
+const moment = require('moment');
 class Education extends Component {
 
   componentWillReceiveProps(nextProps) {
@@ -27,7 +28,8 @@ class Education extends Component {
         <div className="edu-column">{edu.school}</div>
         <div className="edu-column">{edu.degree}</div>
         <div className="edu-column years">
-          <Moment format="YYYY/MM/DD">{edu.from}</Moment> - {edu.to === null ? ('Now') : <Moment format="YYYY/MM/DD">{edu.to}</Moment>}
+          <Moment format="YYYY/MM/DD">{moment.utc(edu.from)}</Moment> - {edu.to === null ? ('Now') : <Moment format="YYYY/MM/DD">{moment.utc(edu.to)}</Moment>}
+
         </div>
         <div className="edu-column deleteButton">
           <Link to={`/edit-education/${edu._id}`} className="btn btn-primary btn-custom">Edit</Link>

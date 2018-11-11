@@ -12,7 +12,13 @@ import Education from './Education';
 class Dashboard extends Component {
 
   componentDidMount() {
+
     this.props.getCurrentProfile();
+  }
+
+  componentWillReceiveProps() {
+    // console.log(this.props);
+
   }
 
   onDeleteClick = (e) => {
@@ -79,7 +85,8 @@ Dashboard.propTypes = {
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
 

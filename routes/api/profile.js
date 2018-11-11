@@ -170,6 +170,7 @@ router.post('/experience', passport.authenticate('jwt', { session: false }),
       //returns any errors with 400 status
       return res.status(400).json(errors);
     }
+    console.log(req.body.from);
 
 
 
@@ -187,6 +188,7 @@ router.post('/experience', passport.authenticate('jwt', { session: false }),
 
       //Add to exp array
       profile.experience.unshift(newExp);
+      console.log(newExp);
 
       profile.save().then(profile => res.json(profile))
     })

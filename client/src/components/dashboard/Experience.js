@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
+// import 'moment-timezone';
 import { getExperience, deleteExperience } from './../../actions/profileActions';
 import { Link } from 'react-router-dom';
 
+const moment = require('moment');
+const tz = require('moment-timezone');
 class Experience extends Component {
 
   componentWillReceiveProps(nextProps) {
@@ -22,12 +25,18 @@ class Experience extends Component {
   }
 
   render() {
+    console.log(this.props.experience);
+    // let from = moment(this.props.from).format('YYYY MM DD')
+    // let from = moment(this.props.from).format('YYYY MM DD')
+    // console.log(from);
+
+
     const experience = this.props.experience.map(exp => (
       <div key={exp._id} className="flex-container exp-row">
         <div className="exp-column">{exp.company}</div>
         <div className="exp-column">{exp.title}</div>
         <div className="exp-column years">
-          <Moment format="YYYY/MM/DD">{exp.from}</Moment> - {exp.to === null ? ('Now') : <Moment format="YYYY/MM/DD">{exp.to}</Moment>}
+          <Moment format="YYYY/MM/DD">{moment.utc(exp.from)}</Moment> - {exp.to === null ? ('Now') : <Moment format="YYYY/MM/DD">{moment.utc(exp.to)}</Moment>}
         </div>
         <div className="exp-column deleteButton">
           <Link to={`/edit-experience/${exp._id}`} className="btn btn-primary btn-custom">Edit</Link>

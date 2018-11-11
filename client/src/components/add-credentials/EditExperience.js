@@ -41,8 +41,8 @@ class AddExperience extends Component {
     exp.company = !_.isEmpty(exp.company) ? exp.company : '';
     exp.title = !_.isEmpty(exp.title) ? exp.title : '';
     exp.location = !_.isEmpty(exp.location) ? exp.location : '';
-    exp.from = !_.isEmpty(exp.from) ? moment(exp.from).format("YYYY-MM-DD") : '';
-    exp.to = !_.isEmpty(exp.to) ? moment(exp.to).format("YYYY-MM-DD") : '';
+    exp.from = !_.isEmpty(exp.from) ? moment.utc(exp.from).format("YYYY-MM-DD") : '';
+    exp.to = !_.isEmpty(exp.to) ? moment.utc(exp.to).format("YYYY-MM-DD") : '';
 
     exp.description = !_.isEmpty(exp.description) ? exp.description : '';
 
@@ -61,12 +61,17 @@ class AddExperience extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
+    let overrideDate;
+    if (this.state.current) {
+      overrideDate = '';
+    }
+
     const expData = {
       company: this.state.company,
       title: this.state.title,
       location: this.state.location,
       from: this.state.from,
-      to: this.state.to,
+      to: this.state.current ? overrideDate : this.state.to,
       current: this.state.current,
       description: this.state.description,
 
@@ -127,6 +132,7 @@ class AddExperience extends Component {
                   value={this.state.from}
                   onChange={this.onChange}
                   error={errors.from}
+                  required={true}
                 />
                 <h6>To Date</h6>
                 <TextFieldGroup
@@ -136,6 +142,7 @@ class AddExperience extends Component {
                   onChange={this.onChange}
                   error={errors.to}
                   disabled={this.state.disabled ? 'disabled' : ''}
+                  required={true}
                 />
                 <div className="form-check mb-4">
                   <input
