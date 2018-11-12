@@ -45,6 +45,7 @@ class AddExperience extends Component {
     exp.to = !_.isEmpty(exp.to) ? moment.utc(exp.to).format("YYYY-MM-DD") : '';
 
     exp.description = !_.isEmpty(exp.description) ? exp.description : '';
+    console.log("checkbox status: " + exp.disabled);
 
     this.setState({
       company: exp.company,
@@ -141,7 +142,7 @@ class AddExperience extends Component {
                   value={this.state.to}
                   onChange={this.onChange}
                   error={errors.to}
-                  disabled={this.state.disabled ? 'disabled' : ''}
+                  disabled={this.state.current ? 'disabled' : ''}
                   required={true}
                 />
                 <div className="form-check mb-4">

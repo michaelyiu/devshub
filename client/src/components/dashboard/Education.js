@@ -31,9 +31,9 @@ class Education extends Component {
           <Moment format="YYYY/MM/DD">{moment.utc(edu.from)}</Moment> - {edu.to === null ? ('Now') : <Moment format="YYYY/MM/DD">{moment.utc(edu.to)}</Moment>}
 
         </div>
-        <div className="edu-column deleteButton">
+        <div className="edu-column buttonGroup">
           <Link to={`/edit-education/${edu._id}`} className="btn btn-primary btn-custom">Edit</Link>
-          <button onClick={() => this.onDeleteClick(edu._id)} className="btn btn-danger btn-custom ml-4">Delete</button>
+          <button onClick={() => this.onDeleteClick(edu._id)} className="btn btn-danger btn-custom">Delete</button>
         </div>
       </div>
     ))

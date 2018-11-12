@@ -29,7 +29,6 @@ class AddEducation extends Component {
 
   componentDidMount() {
     this.props.getEducation(this.props.match.params.edu_id);
-    // console.log(test);
 
   }
   componentWillReceiveProps(nextProps) {
@@ -67,7 +66,6 @@ class AddEducation extends Component {
     let overrideDate;
     if (this.state.current) {
       overrideDate = '';
-      // overrideDate = moment().format('YYYY MM DD')
     }
 
     const eduData = {
@@ -144,7 +142,7 @@ class AddEducation extends Component {
                   value={this.state.to}
                   onChange={this.onChange}
                   error={errors.to}
-                  disabled={this.state.disabled ? 'disabled' : ''}
+                  disabled={this.state.current ? 'disabled' : ''}
                 />
                 <div className="form-check mb-4">
                   <input

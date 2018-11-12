@@ -32,9 +32,9 @@ class Experience extends Component {
         <div className="exp-column years">
           <Moment format="YYYY/MM/DD">{moment.utc(exp.from)}</Moment> - {exp.to === null ? ('Now') : <Moment format="YYYY/MM/DD">{moment.utc(exp.to)}</Moment>}
         </div>
-        <div className="exp-column deleteButton">
+        <div className="exp-column buttonGroup">
           <Link to={`/edit-experience/${exp._id}`} className="btn btn-primary btn-custom">Edit</Link>
-          <button onClick={() => this.onDeleteClick(exp._id)} className="btn btn-danger btn-custom ml-4">Delete</button>
+          <button onClick={() => this.onDeleteClick(exp._id)} className="btn btn-danger btn-custom">Delete</button>
         </div>
       </div>
     ))

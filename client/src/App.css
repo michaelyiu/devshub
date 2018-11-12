@@ -58,10 +58,15 @@ img {
   width: 20%;
 }
 .years{
-  flex-grow: 3;
+  flex-grow: 2;
 }
-.deleteButton{
-  text-align: right;
+.buttonGroup{
+  display: flex;
+  /* flex-direction: column; */
+  justify-content:  center;
+  align-items: flex-end;
+  /* text-align: right; */
+  /* flex-basis: 50px; */
 }
 .btn-custom{
   width: 70px;
@@ -76,4 +81,20 @@ img {
 input[type=date]::-webkit-inner-spin-button{
   -webkit-appearance: none;
   display: none
+}
+
+@media(max-width: 770px) {
+  .buttonGroup{
+    flex-direction: column;
+    width: 50px;
+  }
+  .exp-column, .edu-column{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .years{
+    /* align-items: center; */
+    justify-content: center;
+    /* align-self: center; */
+  }
 }
