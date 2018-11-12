@@ -71,6 +71,9 @@ img {
 .btn-custom{
   width: 70px;
 }
+/* .btn-group{ */
+  /* display: flex; */
+/* } */
 
 .flex-center-vertically{
   display: flex;
@@ -86,15 +89,28 @@ input[type=date]::-webkit-inner-spin-button{
 @media(max-width: 770px) {
   .buttonGroup{
     flex-direction: column;
-    width: 50px;
+    width: 70px;
   }
   .exp-column, .edu-column{
     display: flex;
     flex-wrap: wrap;
   }
   .years{
-    /* align-items: center; */
     justify-content: center;
-    /* align-self: center; */
   }
+
+  .btn-group{
+    display: flex;
+    flex-direction: column;
+  }
+  .prof-actions{
+    border: 1px solid #bbb;
+  }
+}
+
+@media(max-width: 520px) {
+  .title, .degree{
+    display: none;
+  }
+  
 }

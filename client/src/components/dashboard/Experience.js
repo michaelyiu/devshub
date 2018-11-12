@@ -28,7 +28,7 @@ class Experience extends Component {
     const experience = this.props.experience.map(exp => (
       <div key={exp._id} className="flex-container exp-row">
         <div className="exp-column">{exp.company}</div>
-        <div className="exp-column">{exp.title}</div>
+        <div className="exp-column title">{exp.title}</div>
         <div className="exp-column years">
           <Moment format="YYYY/MM/DD">{moment.utc(exp.from)}</Moment> - {exp.to === null ? ('Now') : <Moment format="YYYY/MM/DD">{moment.utc(exp.to)}</Moment>}
         </div>
@@ -43,7 +43,7 @@ class Experience extends Component {
         <h4 className="mb-4">Experience Credentials</h4>
         <div className="flex-container exp-head-row">
           <div className="exp-column">Company</div>
-          <div className="exp-column">Title</div>
+          <div className="exp-column title">Title</div>
           <div className="exp-column years">Years</div>
           <div className="exp-column"></div>
         </div>

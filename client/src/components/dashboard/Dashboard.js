@@ -12,13 +12,7 @@ import Education from './Education';
 class Dashboard extends Component {
 
   componentDidMount() {
-
     this.props.getCurrentProfile();
-  }
-
-  componentWillReceiveProps() {
-    // console.log(this.props);
-
   }
 
   onDeleteClick = (e) => {
